@@ -1,0 +1,175 @@
+openapi: 3.0.3
+info:
+    title: Staffea Authentication API
+    description: This API permits to authenticate or to refresh a token
+    version: 0.1.0
+servers:
+    - url: http://localhost:8080
+paths:
+    /auth/authentication/auth:
+        post:
+            tags:
+                - authenticate
+            summary: authenticate authenticate
+            operationId: authenticate#authenticate
+            parameters:
+                - name: X-Provider
+                  in: query
+                  description: provider
+                  allowEmptyValue: true
+                  schema:
+                    type: integer
+                    description: provider
+                    example: 5565290632023165549
+                    format: int64
+                  example: 6085219046779241899
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/AuthenticateRequestBody'
+                        example:
+                            X-Provider: 1
+                            login: login1
+                            password: password
+                            privacyAccepted: true
+                            uuid: eFd1CEdC-93Fc-38db-dAae-e029817F045F
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/OutputAuth'
+                            example:
+                                locale: fr_FR
+                                login: login
+                                people: /people/peoples/1
+                                providerToken: ""
+                                refreshToken: b222d1c4-4877-11ec-81d3-0242ac130003
+                                subscriber: 1
+                "400":
+                    description: 'badrequest: Bad Request'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/TextMessage'
+                "401":
+                    description: 'unauthorized: Unauthorized'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/TextMessage'
+                "500":
+                    description: 'internalservererror: Internal Server Error'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/TextMessage'
+    /openapi.json:
+        get:
+            tags:
+                - authenticate
+            summary: Download openapi3.json
+            operationId: authenticate#/openapi.json
+            responses:
+                "200":
+                    description: File downloaded
+components:
+    schemas:
+        AuthenticateRequestBody:
+            type: object
+            properties:
+                login:
+                    type: string
+                    description: A valid login name
+                    example: Quam dolores expedita accusantium iste in.
+                password:
+                    type: string
+                    description: A valid password
+                    example: Ea voluptatem optio consequatur minima a.
+                privacyAccepted:
+                    type: boolean
+                    description: privacyAccepted
+                    example: false
+                uuid:
+                    type: string
+                    description: uuid
+                    example: Consequatur veritatis occaecati eveniet et.
+            example:
+                X-Provider: 1
+                login: login1
+                password: password
+                privacyAccepted: true
+                uuid: eFd1CEdC-93Fc-38db-dAae-e029817F045F
+            required:
+                - login
+                - password
+        OutputAuth:
+            type: object
+            properties:
+                locale:
+                    type: string
+                    description: locale
+                    example: Nisi hic esse doloribus deserunt id non.
+                login:
+                    type: string
+                    description: login
+                    example: Praesentium itaque doloribus aut et.
+                people:
+                    type: string
+                    description: people
+                    example: Facere laborum.
+                providerToken:
+                    type: string
+                    description: providerToken
+                    example: Praesentium iusto rerum odit delectus reiciendis quas.
+                refreshToken:
+                    type: string
+                    description: refreshToken
+                    example: Et accusamus temporibus aspernatur.
+                subscriber:
+                    type: integer
+                    description: subscriber
+                    example: 5433772650703446320
+                    format: int64
+            example:
+                locale: fr_FR
+                login: login
+                people: /people/peoples/1
+                providerToken: ""
+                refreshToken: b222d1c4-4877-11ec-81d3-0242ac130003
+                subscriber: 1
+            required:
+                - login
+                - refreshToken
+                - subscriber
+        TextMessage:
+            type: object
+            properties:
+                exception:
+                    type: string
+                    description: Name of the error
+                    example: Sed quas ex.
+                message:
+                    type: string
+                    description: message
+                    example: Voluptas ut.
+                status:
+                    type: integer
+                    description: message status
+                    example: 687621808644622473
+                    format: int64
+            description: Bad Request
+            example:
+                exception: Voluptatibus veritatis aut autem.
+                message: Non aspernatur cupiditate.
+                status: 9032070284485817794
+            required:
+                - status
+                - message
+                - exception
+tags:
+    - name: authenticate
+      description: auth service
